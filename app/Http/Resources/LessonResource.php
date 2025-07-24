@@ -14,6 +14,21 @@ class LessonResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $student = auth('student')->user();
+        if ($student) {
+                return [
+                    'id' => $this->id,
+                    'title' => $this->title,
+                    'subject' => $this->subject->name,
+                    'classroom' => $this->subject->classroom->name,
+                    'unit' => $this->unit->title,
+                    'teacher' => $this->subject->teacher->name,
+                    'description' => $this->description,
+                    'image' => $this->image ? asset('storage/' . $this->image) : null,
+                    'is_favorite' => $student->favoriteLessons->contains($this->id) ? true : false,
+                    'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+                ];
+        }
 
         return [
             'id' => $this->id,
@@ -24,6 +39,7 @@ class LessonResource extends JsonResource
             'teacher' => $this->subject->teacher->name,
             'description' => $this->description,
             'image' => $this->image ? asset('storage/' . $this->image) : null,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'videos' => $this->videos->map(function ($video) {
                 return [
                     'id' => $video->id,

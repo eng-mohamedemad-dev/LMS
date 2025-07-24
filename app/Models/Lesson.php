@@ -25,5 +25,10 @@ class Lesson extends BaseModel {
     public function quizzes() {
         return $this->hasMany(Quiz::class);
     }
+    public function favoritedByStudents()
+    {
+        return $this->belongsToMany(Student::class, 'favorite_lessons')->withTimestamps();
+    }
+
 }
 

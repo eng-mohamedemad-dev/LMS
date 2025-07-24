@@ -14,7 +14,6 @@ class SubjectUnitResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        
         return [
             'name' => $this->name,
             'units' => $this->lessons
@@ -28,6 +27,7 @@ class SubjectUnitResource extends JsonResource
                                 'title' => $lesson->title,
                                 'description' => $lesson->description,
                                 'image' => $lesson->image ? asset('storage/' . $lesson->image) : null,
+                                'is_favorite' => auth('student')->user()->favoriteLessons->contains($lesson->id) ? true : false,
                                 'videos' => $lesson->videos->map(function ($video) {
                                     return [
                                         'id' => $video->id,

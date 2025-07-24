@@ -14,8 +14,27 @@ class QuizzesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $student = auth('student')->user();
+        $return = [
+            'quize_id' => $this->id,
+            'title' => $this->title,
+            'total_marks' => $this->questions->sum('mark'),
+            'questions_count' => $this->questions->count(),
+            'is_solved' => false,
+        ];
+        if ($student) {
+            $result = $student->results()->where('quiz_id', $this->id)->first();
+            $is_solved = $result ? $result->exists() : false;
+            if ($is_solved) {
+                $return['is_solved'] = true;
+                $return['score'] = $result->score;
+                $return['is_passed'] = $result->is_passed;
+                return $return;
+            }
+            
+        }
         return[
-            'id' => $this->id,
+            'quize_id' => $this->id, // 
             'title' => $this->title,
             'lesson' => $this->lesson->title,
             'classroom' => $this->lesson->subject->classroom->name,
@@ -29,7 +48,8 @@ class QuizzesResource extends JsonResource
                     'correct_answer' => $question->correct_answer,
                 ];
             }),
-
+            
         ];
     }
 }
+

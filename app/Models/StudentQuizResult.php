@@ -8,7 +8,7 @@ class StudentQuizResult extends BaseModel {
     use HasFactory;
 
 
-    protected $fillable = ['student_id', 'quiz_id', 'score', 'taken_at'];
+    protected $fillable = ['student_id', 'quiz_id', 'score', 'taken_at', 'is_passed'];
     public function student() {
         return $this->belongsTo(Student::class);
     }

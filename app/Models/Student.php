@@ -25,5 +25,10 @@ class Student extends Authenticatable {
     public function results() {
         return $this->hasMany(StudentQuizResult::class);
     }
+    public function favoriteLessons()
+    {
+        return $this->belongsToMany(Lesson::class, 'favorite_lessons')->withTimestamps();
+    }
+
 }
 

@@ -1,11 +1,11 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\Student\SubjectController;
 use App\Http\Controllers\Api\Student\StudentAuthController;
+use App\Http\Controllers\Api\Student\FavouriteLessonsController;
 use App\Http\Controllers\Api\Student\StudentQuizResultController;
 
 Route::prefix('student')->name('student.')->group(function () {
@@ -20,13 +20,22 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::post('reset','resetPassword');
     });
     Route::middleware(['auth:sanctum', 'role:student'])->group(function () {
+        // students subject details 
+        Route::controller(SubjectController::class)->group(function() {
+            Route::get('subject','all');
+            Route::get('subject/unit/{subject}','show');
+            Route::get('subject/quizzes/{lesson}','getQuizzes');
+            Route::get('subject/quiz/{quiz}','getQuiz');
+            Route::post('quiz/submit','submit');
+            Route::get('lessons/latest','latestLessons');
+        });
+        // resukts 
         Route::apiResource('results', StudentQuizResultController::class);
-        Route::get('subject',[SubjectController::class,'all']);
-        Route::get('subject/unit/{subject}',[SubjectController::class,'show']);
-        Route::get('subject/quizzes/{lesson}',[SubjectController::class,'getQuizzes']);
-        Route::get('subject/quiz/{quiz}',[SubjectController::class,'getQuiz']);
-        Route::post('quiz/submit',[SubjectController::class,'submit']);
-
+        // favourite  
+        Route::delete('favorites', [FavouriteLessonsController::class, 'deleteAll']);
+        Route::apiResource('favorites',FavouriteLessonsController::class)
+        ->except(['show', 'update']); 
+        
         // Profile routes
         Route::controller(ProfileController::class)->group(function() {
             Route::get('profile', 'show');
