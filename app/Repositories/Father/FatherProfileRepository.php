@@ -27,7 +27,9 @@ class FatherProfileRepository implements FatherProfileInterface
 
     public function delete($father)
     {
-        Storage::disk('public')->delete($father->image);
+        if ($father->image && Storage::disk('public')->exists($father->image)) {
+            Storage::disk('public')->delete($father->image);
+        }
         return $father->delete();
     }
 }

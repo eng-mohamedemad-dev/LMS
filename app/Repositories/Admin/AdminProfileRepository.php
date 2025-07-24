@@ -27,7 +27,9 @@ class AdminProfileRepository implements AdminProfileInterface
 
     public function delete($admin)
     {
-        Storage::disk('public')->delete($admin->image);
+        if ($admin->image && Storage::disk('public')->exists($admin->image)) {
+            Storage::disk('public')->delete($admin->image);
+        }
         return $admin->delete();
     }
 }

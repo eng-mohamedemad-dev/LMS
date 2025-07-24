@@ -24,6 +24,12 @@ class LessonResource extends JsonResource
                     'unit' => $this->unit->title,
                     'teacher' => $this->subject->teacher->name,
                     'description' => $this->description,
+                    'videos' => $this->videos->map(function ($video) {
+                        return [
+                            'id' => $video->id,
+                            'video_url' => asset('storage/' . $video->video_url),
+                        ];
+                    }),
                     'image' => $this->image ? asset('storage/' . $this->image) : null,
                     'is_favorite' => $student->favoriteLessons->contains($this->id) ? true : false,
                     'created_at' => $this->created_at->format('Y-m-d H:i:s'),

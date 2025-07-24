@@ -27,7 +27,9 @@ class StudentProfileRepository implements StudentProfileInterface
 
     public function delete($student)
     {
-        Storage::disk('public')->delete($student->image);
+        if ($student->image && Storage::disk('public')->exists($student->image)) {
+            Storage::disk('public')->delete($student->image);
+        }
         return $student->delete();
     }
 }
