@@ -18,4 +18,8 @@ class Teacher extends Authenticatable {
     public function subject() {
         return $this->hasMany(Subject::class);
     }
+    public function firebaseTokens()
+    {
+        return $this->morphMany(FirebaseToken::class, 'tokenable');
+    }
 }

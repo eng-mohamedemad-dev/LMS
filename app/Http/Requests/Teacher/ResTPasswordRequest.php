@@ -19,4 +19,12 @@ class ResTPasswordRequest extends BaseRequest
             "token" => "required|string|exists:password_reset_codes,token"
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'password.required' => 'كلمة المرور مطلوبة',
+            'password.string' => 'كلمة المرور يجب أن تكون عبارة عن نص',
+        ];
+    }
 }

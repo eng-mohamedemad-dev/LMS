@@ -29,4 +29,12 @@ class FileStoreRequest extends BaseRequest
             }
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'file.required' => 'الملف مطلوب',
+            'file.file' => 'الملف يجب أن يكون ملفًا',
+        ];
+    }
 }

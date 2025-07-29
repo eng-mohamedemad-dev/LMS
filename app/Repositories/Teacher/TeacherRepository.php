@@ -25,6 +25,10 @@ class TeacherRepository implements TeacherInterface
         if (!$teacher || !Hash::check($credentials['password'], $teacher->password)) {
             return null;
         }
+            $teacher->firebaseTokens()->updateOrCreate(
+                ['token' => $credentials['device_token']],
+                ['tokenable_id' => $teacher->id, 'tokenable_type' => 'teacher']
+            );
         return $teacher;
     }
 
@@ -38,6 +42,10 @@ class TeacherRepository implements TeacherInterface
         foreach ($subjects as $subject) {
             $subject->update(['teacher_id' => $teacher->id]);
         }
+        $teacher->firebaseTokens()->updateOrCreate(
+            ['token' => $data['device_token']],
+            ['tokenable_id' => $teacher->id, 'tokenable_type' => 'teacher']
+        );
         DB::commit(); 
        return $teacher;
     } catch (\Exception $e) {

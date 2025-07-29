@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use App\Models\File;
 use App\Policies\FilePolicy;
 use Laravel\Sanctum\Sanctum;
@@ -15,7 +16,6 @@ use App\Repositories\QuizRepository;
 use Illuminate\Support\Facades\Gate;
 use App\Repositories\VideoRepository;
 use App\Interfaces\ClassroomInterface;
-use App\Interfaces\Student\FavoriteLessonInterface;
 use App\Repositories\LessonRepository;
 use Illuminate\Support\Facades\Schema;
 use App\Repositories\SubjectRepository;
@@ -24,8 +24,11 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Permission\Models\Permission;
 use App\Repositories\ClassroomRepository;
 use App\Interfaces\StudentQuizResultInterface;
+use App\Interfaces\Student\FavoriteLessonInterface;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Repositories\Student\FavoriteLessonRepository;
 use App\Repositories\Student\StudentQuizResultRepository;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,28 +59,36 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-   public function boot(): void
-{
-    Gate::before(function ($user, $ability) {
-        if ($user->hasRole('admin')) {
-            return true;
+    public function boot(): void
+    {
+        Carbon::setLocale('ar');
+        Relation::morphMap([
+            'student' => \App\Models\Student::class,
+            'teacher' => \App\Models\Teacher::class,
+            'admin'   => \App\Models\Admin::class,
+        ]);
+        
+
+        Gate::before(function ($user, $ability) {
+            if ($user->hasRole('admin')) {
+                return true;
+            }
+        });
+
+        
+        if (Schema::hasTable('permissions')) {
+            $permission = Permission::get()->pluck('name')->toArray();
+
+            foreach($permission as $value) {
+                Gate::define($value,function($user) use ($value) {
+                    return $user->hasPermissionTo($value);
+                });
+            }
+
+            Gate::policy(File::class, FilePolicy::class);
         }
-    });
 
-    
-    if (Schema::hasTable('permissions')) {
-        $permission = Permission::get()->pluck('name')->toArray();
-
-        foreach($permission as $value) {
-            Gate::define($value,function($user) use ($value) {
-                return $user->hasPermissionTo($value);
-            });
-        }
-
-        Gate::policy(File::class, FilePolicy::class);
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
-
-    Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
-}
 
 }

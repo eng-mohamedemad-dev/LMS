@@ -20,11 +20,10 @@ class LessonService
 
     public function create($data)
     {
-        if ($data->image) {
-            $data['image'] = $this->upload("public","lessons", $data->image);
-        }
-        if ($data->video) {
-            $data['video'] = $this->upload("public","videos", $data->video);
+        foreach (['image','video','pdf'] as $file) {
+            if ($data->$file) {
+                $data[$file] = $this->upload("public","lessons/".$file, $data->$file);
+            }
         }
         return $this->lessonRepository->create($data->toArray());
     }

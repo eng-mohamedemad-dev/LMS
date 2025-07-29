@@ -18,4 +18,13 @@ class ResendVerifyEmailRequest extends BaseRequest
             "email" => "required|email|exists:teachers,email"
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'البريد الإلكتروني مطلوب',
+            'email.email' => 'البريد الإلكتروني غير صالح',
+            'email.exists' => 'البريد الإلكتروني غير موجود',
+        ];
+    }
 }

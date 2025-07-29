@@ -18,4 +18,12 @@ class VideoStoreRequest extends BaseRequest
             'lesson_id' => 'required|exists:lessons,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'video.required' => 'الفيديو مطلوب',
+            'video.file' => 'الفيديو يجب أن يكون ملفًا',
+        ];
+    }
 }

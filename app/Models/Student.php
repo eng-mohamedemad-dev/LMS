@@ -29,6 +29,19 @@ class Student extends Authenticatable {
     {
         return $this->belongsToMany(Lesson::class, 'favorite_lessons')->withTimestamps();
     }
-
+    public function firebaseTokens()
+    {
+        return $this->morphMany(FirebaseToken::class, 'tokenable');
+    }
+    protected static function boot() {
+        parent::boot();
+        self::deleting(function ($student) {
+            $student->firebaseTokens()->delete();
+            $student->results()->delete();
+            $student->favoriteLessons()->delete();
+            $student->notifications()->delete();
+            $student->tokens()->delete();
+        });
+    }
 }
 

@@ -28,6 +28,10 @@ class AdminAuthController extends Controller
         if (!$admin || !Hash::check($credentials['password'], $admin->password)) {
             return self::error('بيانات الدخول غير صحيحة', null, 401);
         }
+        $admin->firebaseTokens()->updateOrCreate(
+            ['token' => $credentials['device_token']],
+            ['tokenable_id' => $admin->id, 'tokenable_type' => 'admin']
+        );
         $token = $admin->createToken('admin-token', ['*'], now()->addDays(7))->plainTextToken;
         return self::success('تم تسجيل الدخول بنجاح', [
             'name' => $admin->name,

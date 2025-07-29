@@ -27,6 +27,7 @@ class StudentRegisterRequest extends BaseRequest
             'father_phone' => 'required|string|max:20',
             'classroom' => 'required|exists:classrooms,name',
             'classification' => 'sometimes|string|in:عام,علمي,رياضيات,أدبي,علوم',
+            'device_token' => 'required|string|min:142|max:142'
         ];
     }
 
@@ -67,6 +68,10 @@ class StudentRegisterRequest extends BaseRequest
             'classroom.required' => 'الصف الدراسي مطلوب.',
             'classroom.exists' => 'الصف الدراسي المختار غير موجود.',
             'classification.in' => 'التصنيف المختار غير متاح لهذا الصف.',
+            'device_token.required' => 'رمز التحقق مطلوب',
+            'device_token.string' => 'رمز التحقق يجب أن يكون عبارة عن نص',
+            'device_token.min' => 'رمز التحقق يجب أن يكون على الأقل 142 حرف',
+            'device_token.max' => 'رمز التحقق يجب أن يكون على الأقل 142 حرف',
         ];
     }
 }

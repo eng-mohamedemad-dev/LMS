@@ -127,7 +127,10 @@ class SubjectController extends Controller
 
     public function latestLessons()
     {
-        $student = Student::with('classroom.subjects.lessons.subject','classroom.subjects.lessons.unit')
+        $student = Student::with('classroom.subjects.lessons.subject','classroom.subjects.lessons.unit'
+        ,'classroom.subjects.lessons.files'
+        ,'classroom.subjects.lessons.videos'
+        )
         ->where('id', auth('student')->id())
         ->first();
         $lessons = $student->classroom->subjects
@@ -135,7 +138,7 @@ class SubjectController extends Controller
                 return $subject->lessons;
             })
             ->sortByDesc('created_at')
-            ->values();
+            ->values()->take(5);
         return self::success("أحدث الدروس", LessonResource::collection($lessons));
     }
 

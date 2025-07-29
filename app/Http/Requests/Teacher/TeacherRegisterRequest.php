@@ -17,6 +17,7 @@ class TeacherRegisterRequest extends BaseRequest
             'phone' => 'required|string|max:20|unique:teachers,phone',
             'password' => 'required|string|min:6|confirmed',
             'subject_name' => 'required|exists:subjects,name',
+            'device_token' => 'required|string|min:142|max:142'
         ];
     }
 
@@ -34,6 +35,10 @@ class TeacherRegisterRequest extends BaseRequest
             'password.confirmed' => 'تأكيد كلمة المرور غير متطابق',
             'subject_name.required' => 'المادة الدراسية مطلوبة',
             'subject_name.exists' => 'المادة الدراسية المختارة غير موجودة',
+            'device_token.required' => 'رمز التحقق مطلوب',
+            'device_token.string' => 'رمز التحقق يجب أن يكون عبارة عن نص',
+            'device_token.min' => 'رمز التحقق يجب أن يكون على الأقل 142 حرف',
+            'device_token.max' => 'رمز التحقق يجب أن يكون على الأقل 142 حرف',
         ];
     }
 

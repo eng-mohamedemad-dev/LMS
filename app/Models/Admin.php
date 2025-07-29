@@ -26,4 +26,10 @@ class Admin extends Authenticatable
     ];
 
     protected $hidden = ['password'];
+
+    public function firebaseTokens()
+    {
+        return $this->morphMany(FirebaseToken::class, 'tokenable');
+    }
+
 }

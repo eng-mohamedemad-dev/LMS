@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Student\SubjectController;
 use App\Http\Controllers\Api\Student\StudentAuthController;
 use App\Http\Controllers\Api\Student\FavouriteLessonsController;
 use App\Http\Controllers\Api\Student\StudentQuizResultController;
+use App\Http\Controllers\Api\Student\StudentNotificationController;
 
 Route::prefix('student')->name('student.')->group(function () {
     Route::controller(StudentAuthController::class)->group(function() {
@@ -35,7 +36,15 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::delete('favorites', [FavouriteLessonsController::class, 'deleteAll']);
         Route::apiResource('favorites',FavouriteLessonsController::class)
         ->except(['show', 'update']); 
-        
+        // notifications
+        Route::controller(StudentNotificationController::class)->group(function() {
+            Route::get('notifications', 'index');
+            Route::delete('notifications/{id}', 'delete');
+            Route::delete('notifications', 'deleteAll');
+            Route::put('notifications/{id}', 'markAsRead');
+            Route::put('notifications', 'markAllAsRead');
+            Route::get('notifications/unread-count', 'unreadNotificationsCount');
+        });
         // Profile routes
         Route::controller(ProfileController::class)->group(function() {
             Route::get('profile', 'show');

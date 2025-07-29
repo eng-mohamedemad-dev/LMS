@@ -18,4 +18,12 @@ class CheckRestCodeRequest extends BaseRequest
             "code" => "required|string|exists:password_reset_codes,code"
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'البريد الإلكتروني مطلوب',
+            'email.string' => 'البريد الإلكتروني يجب أن يكون عبارة عن نص',
+        ];
+    }
 }

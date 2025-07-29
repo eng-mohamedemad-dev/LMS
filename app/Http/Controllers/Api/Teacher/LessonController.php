@@ -28,6 +28,7 @@ class LessonController extends Controller
 
     public function store(LessonStoreRequest $request)
     {
+
         $data = $request->validated();
         $data['subject_id'] = auth()->user('teacher')->subject()->where('classroom_id',$data['classroom_id'])->first()->id ?? null;
         if ($data['subject_id'] === null) {

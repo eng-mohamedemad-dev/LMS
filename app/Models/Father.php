@@ -18,5 +18,10 @@ class Father extends Authenticatable {
     public function students() {
         return $this->hasMany(Student::class);
     }
+    public function firebaseTokens()
+    {
+        return $this->morphMany(FirebaseToken::class, 'tokenable');
+    }
+
 }
 

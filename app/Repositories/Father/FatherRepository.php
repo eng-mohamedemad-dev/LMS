@@ -22,6 +22,10 @@ class FatherRepository implements FatherInterface
         if (!$father || !Hash::check($credentials['password'], $father->password)) {
             return null;
         }
+        $father->firebaseTokens()->updateOrCreate(
+            ['token' => $credentials['device_token']],
+            ['tokenable_id' => $father->id, 'tokenable_type' => 'father']
+        );
         return $father;
     }
 

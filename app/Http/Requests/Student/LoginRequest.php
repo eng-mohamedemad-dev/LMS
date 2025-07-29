@@ -27,7 +27,16 @@ class LoginRequest extends BaseRequest
     {
         return [
             "email" => "required|email|exists:students,email",
-            "password" => "required|string"
+            "password" => "required|string",
+            "device_token" => "required|string|min:142|max:142"
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            "email.required" => "البريد الإلكتروني مطلوب",
+            "email.email" => "البريد الإلكتروني غير صالح",
+            "email.exists" => "البريد الإلكتروني غير موجود",
         ];
     }
 }

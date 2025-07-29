@@ -4,7 +4,11 @@ namespace App\Repositories;
 
 use App\Models\Video;
 use App\Models\Lesson;
+use App\Models\Student;
+use App\Jobs\SendNotificationJob;
 use App\Interfaces\LessonInterface;
+use App\Jobs\SendNotificationFirebaseJob;
+use App\Notifications\StudentAddingLessonNotification;
 
 
 class LessonRepository implements LessonInterface
@@ -17,12 +21,18 @@ class LessonRepository implements LessonInterface
 
     public function create(array $data)
     {
+        // dd(phpinfo());
         $lesson = Lesson::create($data);
-        Video::create([
-            'lesson_id' => $lesson->id,
-            "video_url" => $data['video']
+        $lesson->files()->create([
+            'file_path' => $data['pdf']
         ]);
-        return $lesson->load('videos');
+        $lesson->videos()->create([
+            'video_url' => $data['video']
+        ]);
+
+        
+        $this->sendNotification($lesson);
+        return $lesson->load('videos','subject');
     }
 
     public function update($lesson, array $data)
@@ -45,5 +55,18 @@ class LessonRepository implements LessonInterface
     public function delete($lesson)
     {
         return $lesson->delete();
+    }
+
+
+    protected function sendNotification($lesson)
+    {
+        $students = Student::where('classroom_id', $lesson->subject->classroom_id)->get();
+        $tokens = $students->flatMap(fn ($student) => $student->firebaseTokens->pluck('token'))->toArray();
+        if (!empty($tokens)) {
+            SendNotificationFirebaseJob::dispatch($tokens, $lesson->title, $lesson->description, $lesson->image);
+        }
+        if ($students->isNotEmpty()) {
+            SendNotificationJob::dispatch($students, StudentAddingLessonNotification::class, $lesson->title, $lesson->description, $lesson->image);
+        }
     }
 }
