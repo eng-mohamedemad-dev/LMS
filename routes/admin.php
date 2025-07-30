@@ -20,26 +20,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::apiResource('classrooms', ClassroomController::class);
         Route::apiResource('subjects', SubjectController::class);
-
         // Profile routes
         Route::controller(ProfileController::class)->group(function() {
             Route::get('profile', 'show');
             Route::put('profile', 'update');
             Route::delete('profile', 'destroy');
         });
-
-        Route::controller(TeacherSettingController::class)->group(function () {
-            Route::put('teachers/{id}/approve', 'approve');
-            // Route::put('teachers/{id}/permissions', 'managePermissions');
-        });
-        Route::controller(StudentSettingController::class)->group(function () {
-            Route::put('students/{id}/approve', 'approve');
-            // Route::put('students/{id}/permissions', 'managePermissions');
-        });
-        Route::controller(FatherSettingController::class)->group(function () {
-            Route::put('fathers/{id}/approve', 'approve');
-            // Route::put('fathers/{id}/permissions', 'managePermissions');
-        });
+        Route::put('teachers/{id}/approve', [TeacherSettingController::class,'approve']);
+        Route::put('students/{id}/approve', [StudentSettingController::class,'approve']);
+        Route::put('fathers/{id}/approve', [FatherSettingController::class,'approve']);
         Route::apiResource('teachers', TeacherSettingController::class)->except('store');
         Route::apiResource('students', StudentSettingController::class)->except('store');
         Route::apiResource('fathers', FatherSettingController::class)->except('store');

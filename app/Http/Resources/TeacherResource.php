@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use function PHPSTORM_META\map;
+
 class TeacherResource extends JsonResource
 {
     /**
@@ -19,7 +21,11 @@ class TeacherResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'subject' => $this->subject?->name,
+            'subject' => $this->subject->map(function($subject) {
+                return [
+                    'name' => $subject->name,
+                ];
+            }),
         ];
     }
 }
