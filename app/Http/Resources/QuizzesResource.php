@@ -18,9 +18,9 @@ class QuizzesResource extends JsonResource
         $return = [
             'quize_id' => $this->id,
             'title' => $this->title,
+            'duration' => $this->duration,
             'total_marks' => $this->questions->sum('mark'),
             'questions_count' => $this->questions->count(),
-            'is_solved' => false,
         ];
         if ($student) {
             $result = $student->results()->where('quiz_id', $this->id)->first();
@@ -29,13 +29,15 @@ class QuizzesResource extends JsonResource
                 $return['is_solved'] = true;
                 $return['score'] = $result->score;
                 $return['is_passed'] = $result->is_passed;
-                return $return;
             }
+            $return['is_solved'] = false;
+            return $return;
             
         }
         return[
             'quize_id' => $this->id, // 
             'title' => $this->title,
+            'duration' => $this->duration,
             'lesson' => $this->lesson->title,
             'classroom' => $this->lesson->subject->classroom->name,
             'total_marks' => $this->questions->sum('mark'),

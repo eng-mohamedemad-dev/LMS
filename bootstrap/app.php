@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Middleware\Emailverify;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\AcountApproved;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Spatie\Permission\Exceptions\UnauthorizedException;

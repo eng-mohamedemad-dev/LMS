@@ -12,6 +12,7 @@ class QuizStoreRequest extends BaseRequest
         return [
         'quiz_title' => 'required|string|max:255',
         'classroom_id' => 'required|exists:classrooms,id',
+        'duration' => 'required|integer|min:1',
         'lesson_id' => [
             'required',
             'exists:lessons,id',
@@ -44,6 +45,9 @@ class QuizStoreRequest extends BaseRequest
             'quiz_title.max' => 'عنوان الاختبار يجب ألا يتجاوز 255 حرفاً.',
             'classroom_id.required' => 'معرف الصف مطلوب.',
             'classroom_id.exists' => 'الصف المحدد غير موجود.',
+            'duration.required' => 'المدة مطلوبة.',
+            'duration.integer' => 'المدة يجب أن تكون رقمية.',
+            'duration.min' => 'المدة يجب أن تكون على الأقل 1 دقيقة.',
             'lesson_id.required' => 'معرف الدرس مطلوب.',
             'lesson_id.exists' => 'الدرس المحدد غير موجود.',
             'questions.required' => 'يجب إرسال الأسئلة.',

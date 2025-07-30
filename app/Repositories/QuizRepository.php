@@ -27,6 +27,7 @@ class QuizRepository implements QuizInterface
             'title'=> $data['quiz_title'],
             'lesson_id'=> $data['lesson_id'],
             'subject_id'=> $data['subject_id'],
+            'duration'=> $data['duration'],
         ]);
         $quiz->questions()->createMany($questions);
         return $quiz;

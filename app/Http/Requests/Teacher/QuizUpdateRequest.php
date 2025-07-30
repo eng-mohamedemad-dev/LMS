@@ -23,6 +23,7 @@ class QuizUpdateRequest extends BaseRequest
         ],
         'quiz_title' => 'sometimes|required|string|max:255',
         'classroom_id' => 'required|exists:classrooms,id',
+        'duration' => 'sometimes|required|integer|min:1',
         'lesson_id' => [
             'required',
             'exists:lessons,id',
@@ -54,6 +55,9 @@ class QuizUpdateRequest extends BaseRequest
             'quiz_id.exists' => 'الاختبار المحدد غير موجود.',
             'classroom_id.required' => 'معرف الفصل الدراسي مطلوب.',
             'classroom_id.exists' => 'الفصل الدراسي المحدد غير موجود.',
+            'duration.required' => 'المدة مطلوبة.',
+            'duration.integer' => 'المدة يجب أن تكون رقمية.',
+            'duration.min' => 'المدة يجب أن تكون على الأقل 1 دقيقة.',
             'lesson_id.required' => 'معرف الدرس مطلوب.',
             'lesson_id.exists' => 'الدرس المحدد غير موجود.',
             'quiz_title.required' => 'عنوان الاختبار مطلوب.',
