@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Teacher\FileController;
 use App\Http\Controllers\Api\Teacher\QuizController;
 use App\Http\Controllers\Api\Teacher\VideoController;
 use App\Http\Controllers\Api\Teacher\LessonController;
+use App\Http\Controllers\Api\Teacher\MessageController;
 use App\Http\Controllers\Api\Teacher\ProfileController;
 use App\Http\Controllers\Api\Teacher\TeacherController;
 use App\Http\Controllers\Api\Teacher\TeacherAuthController;
@@ -29,21 +30,21 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::apiResource('files', FileController::class)->only(['index', 'show', 'store', 'destroy']);
         Route::apiResource('videos', VideoController::class)->only(['index', 'show', 'store', 'destroy']);
         Route::get('results', [TeacherStudentResultController::class, 'index']);
-
+        
         // Profile routes
         Route::controller(ProfileController::class)->group(function() {
             Route::get('profile', 'show');
             Route::put('profile', 'update');
             Route::delete('profile', 'destroy');
         });
-
+        
         Route::controller(TeacherController::class)->group(function() {
             Route::get('classrooms','classrooms');
             Route::get('students','students');
             Route::get('lesson','lesson');
         });
-
-
+        
+        Route::post('message',MessageController::class);
     });
         Route::get('units',[TeacherController::class,'units']);
 });

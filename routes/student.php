@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\Student\SubjectController;
 use App\Http\Controllers\Api\Student\StudentAuthController;
 use App\Http\Controllers\Api\Student\FavouriteLessonsController;
+use App\Http\Controllers\Api\Student\MessageController;
 use App\Http\Controllers\Api\Student\StudentQuizResultController;
 use App\Http\Controllers\Api\Student\StudentNotificationController;
 
@@ -51,15 +52,18 @@ Route::prefix('student')->name('student.')->group(function () {
             Route::put('profile', 'update');
             Route::delete('profile', 'destroy');
         });
+        Route::post('message',MessageController::class);
     });
 });
 
 
 Route::get('/stream-video/{filename}', function ($filename) {
-    $path = storage_path('app/public/videos/' . $filename);
+    $path = storage_path('app/public/lessons/video/' . $filename);
+    
     if (!file_exists($path)) {
-        abort(404);
+        return response()->json(['error' => 'File not found: ' . $path], 404);
     }
+    
     return Response::file($path, [
         'Content-Type' => 'video/mp4',
         'Accept-Ranges' => 'bytes',

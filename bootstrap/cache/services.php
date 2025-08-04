@@ -34,8 +34,7 @@
     30 => 'Termwind\\Laravel\\TermwindServiceProvider',
     31 => 'Spatie\\Permission\\PermissionServiceProvider',
     32 => 'App\\Providers\\AppServiceProvider',
-    33 => 'App\\Providers\\DriveProvider',
-    34 => 'App\\Providers\\TelescopeServiceProvider',
+    33 => 'App\\Providers\\TelescopeServiceProvider',
   ),
   'eager' => 
   array (
@@ -57,8 +56,7 @@
     15 => 'Termwind\\Laravel\\TermwindServiceProvider',
     16 => 'Spatie\\Permission\\PermissionServiceProvider',
     17 => 'App\\Providers\\AppServiceProvider',
-    18 => 'App\\Providers\\DriveProvider',
-    19 => 'App\\Providers\\TelescopeServiceProvider',
+    18 => 'App\\Providers\\TelescopeServiceProvider',
   ),
   'deferred' => 
   array (

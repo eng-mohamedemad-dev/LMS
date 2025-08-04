@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Middleware\Emailverify;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\AcountApproved;
+use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
+    ->withMiddleware(function (Middleware $middleware): void { 
         $middleware->alias([
             "email_check" => Emailverify::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,

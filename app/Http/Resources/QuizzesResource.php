@@ -21,16 +21,17 @@ class QuizzesResource extends JsonResource
             'duration' => $this->duration,
             'total_marks' => $this->questions->sum('mark'),
             'questions_count' => $this->questions->count(),
+            'end_date' => $this->end_date,
         ];
         if ($student) {
             $result = $student->results()->where('quiz_id', $this->id)->first();
-            $is_solved = $result ? $result->exists() : false;
+            $is_solved = $result->exists();
             if ($is_solved) {
                 $return['is_solved'] = true;
                 $return['score'] = $result->score;
                 $return['is_passed'] = $result->is_passed;
             }
-            $return['is_solved'] = false;
+            $return['is_solved'] = $is_solved;
             return $return;
             
         }

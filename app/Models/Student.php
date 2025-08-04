@@ -33,6 +33,11 @@ class Student extends Authenticatable {
     {
         return $this->morphMany(FirebaseToken::class, 'tokenable');
     }
+    
+    public function messages()
+    {
+        return $this->morphMany(Message::class, 'messageable');
+    }
     protected static function boot() {
         parent::boot();
         self::deleting(function ($student) {

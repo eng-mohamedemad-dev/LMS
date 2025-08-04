@@ -13,6 +13,7 @@ class QuizStoreRequest extends BaseRequest
         'quiz_title' => 'required|string|max:255',
         'classroom_id' => 'required|exists:classrooms,id',
         'duration' => 'required|integer|min:1',
+        'end_date' => 'required|date|after_or_equal:today',
         'lesson_id' => [
             'required',
             'exists:lessons,id',
@@ -48,6 +49,8 @@ class QuizStoreRequest extends BaseRequest
             'duration.required' => 'المدة مطلوبة.',
             'duration.integer' => 'المدة يجب أن تكون رقمية.',
             'duration.min' => 'المدة يجب أن تكون على الأقل 1 دقيقة.',
+            'end_date.date' => 'تاريخ الانتهاء يجب أن يكون تاريخاً صالحاً.',
+            'end_date.after_or_equal' => 'تاريخ الانتهاء يجب أن يكون اليوم أو بعده.',
             'lesson_id.required' => 'معرف الدرس مطلوب.',
             'lesson_id.exists' => 'الدرس المحدد غير موجود.',
             'questions.required' => 'يجب إرسال الأسئلة.',

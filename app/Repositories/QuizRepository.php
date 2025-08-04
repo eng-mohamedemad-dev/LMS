@@ -28,6 +28,7 @@ class QuizRepository implements QuizInterface
             'lesson_id'=> $data['lesson_id'],
             'subject_id'=> $data['subject_id'],
             'duration'=> $data['duration'],
+            'end_date' => $data['end_date'] ?? null,
         ]);
         $quiz->questions()->createMany($questions);
         return $quiz;
@@ -40,6 +41,8 @@ class QuizRepository implements QuizInterface
         'title' => $data['quiz_title'],
         'lesson_id' => $data['lesson_id'],
         'subject_id' => $data['subject_id'],
+        'duration' => $data['duration'],
+        'end_date' => $data['end_date'] ?? null,
     ]);
 
     $quiz->questions()->delete();

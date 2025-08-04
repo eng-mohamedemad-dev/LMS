@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Student;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,8 +17,13 @@ use Illuminate\Support\Facades\Route;
 //    dump($tokens);
 //    dump($test->flatten()[0]);
 // });
-Route::fallback(function () {
-    return response()->json(['message' => 'Not Found'], 404);
+Route::post('/test', function (Request $request) {
+    
+    return response()->json([
+        'message' => 'Request received!',
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+    ]);
 });
 
 require __DIR__.'/admin.php';

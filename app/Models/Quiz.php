@@ -8,7 +8,7 @@ class Quiz extends BaseModel {
     use HasFactory;
 
 
-    protected $fillable = ['title', 'subject_id','lesson_id','duration'];
+    protected $fillable = ['title', 'subject_id','lesson_id','duration','end_date'];
     public function subject() {
         return $this->belongsTo(Subject::class);
     }

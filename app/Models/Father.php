@@ -22,6 +22,11 @@ class Father extends Authenticatable {
     {
         return $this->morphMany(FirebaseToken::class, 'tokenable');
     }
+    
+    public function messages()
+    {
+        return $this->morphMany(Message::class, 'messageable');
+    }
 
 }
 
